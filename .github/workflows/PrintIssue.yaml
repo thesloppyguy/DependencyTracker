@@ -1,4 +1,6 @@
-on: issues
+on:
+  issues:
+    types: [closed, deleted]
 
 jobs:
   job1:
