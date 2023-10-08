@@ -1,5 +1,5 @@
 const core = require("@actions/core");
-import * as github from "github";
+import * as model from "./model.js";
 
 const main = async () => {
   try {
