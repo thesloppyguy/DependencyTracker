@@ -1,0 +1,17 @@
+name: "Dependency Tracker"
+description: "Checks for related dependent issues and removes on-hold label if no dependent issues are present"
+inputs:
+  issue_number:
+    description: "The number of the issue closed"
+    required: true
+    default: ${{ github.event.issue.number }}
+  token:
+    description: "The token to use to access the GitHub API"
+    required: false
+    default: ${{ github.token }}
+branding:
+  icon: "git-pull-request"
+  color: "red"
+runs:
+  using: "node16"
+  main: "src/index.js"
