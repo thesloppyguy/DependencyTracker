@@ -1,4 +1,4 @@
-name: "Dependency Tracker"
+name: "Dependent Issues Tracker"
 description: "Checks for related dependent issues and removes on-hold label if no dependent issues are present"
 author: "Sahil"
 inputs:
