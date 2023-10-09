@@ -1,4 +1,4 @@
-const core = require("@actions/core");
+import * as core from "@actions/core";
 import * as model from "./model.js";
 
 const main = async () => {
@@ -10,5 +10,4 @@ const main = async () => {
   }
 };
 
-// Call the main function to run the action
 main();

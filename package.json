@@ -5,19 +5,20 @@
   "main": "/src/index.js",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/thesloppyguy/DependencyTracker"
   },
   "type": "module",
   "keywords": [],
   "bugs": {
-    "url": ""
+    "url": "https://github.com/thesloppyguy/DependencyTracker/issues"
   },
-  "homepage": "",
+  "homepage": "https://github.com/thesloppyguy/DependencyTracker/README.md",
   "dependencies": {
     "@actions/core": "^1.9.0",
     "@actions/github": "^5.0.3"
   },
   "scripts": {
+    "build": "ncc build src/index.js -o dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Sahil",
