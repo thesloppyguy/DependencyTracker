@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Checks for Dependent Issues
     steps:
-      - uses: thesloppyguy/DependencyTracker@v2
+      - uses: thesloppyguy/DependencyTracker@v1
 ```
 
 # How it works
