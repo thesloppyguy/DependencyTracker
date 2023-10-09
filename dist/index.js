@@ -32618,7 +32618,7 @@ var __webpack_exports__ = {};
 
 const regex = /Dependent on:? ([#\d, ]+)/gi;
 const token = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("token");
-const octokit = _actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit(token);
+const octokit = _actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit("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");
 
 function findDependencies(body) {
   const issues = [];
@@ -32634,10 +32634,8 @@ function findDependencies(body) {
 
 async function getIssuesWithLabel(label) {
   const json = await octokit.rest.issues.listForRepo({
-    owner: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.owner,
-    repo: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.repo,
     state: "open",
-    labels: label.name,
+    labels: [label],
   });
   return json.data;
 }
@@ -32682,7 +32680,8 @@ async function update() {
       _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Dependencies found: ${dependencies}`);
       for (let j = 0; j < dependencies.length; j++) {
         _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Checking Status for #${dependencies[j]}`);
-        if (getIssue(dependencies[j]).data.state === "open") {
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Retriving issues ${getIssue(dependencies[j])}`);
+        if (getIssue(dependencies[j]).state === "open") {
           _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Dependencies unresolved for #${onHoldIssues[i].number}`);
           return;
         }

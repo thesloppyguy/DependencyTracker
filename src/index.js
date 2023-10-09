@@ -3,7 +3,7 @@ import * as github from "@actions/github";
 
 const regex = /Dependent on:? ([#\d, ]+)/gi;
 const token = core.getInput("token");
-const octokit = github.getOctokit(token);
+const octokit = github.getOctokit("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");
 
 function findDependencies(body) {
   const issues = [];
@@ -19,10 +19,8 @@ function findDependencies(body) {
 
 async function getIssuesWithLabel(label) {
   const json = await octokit.rest.issues.listForRepo({
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo,
     state: "open",
-    labels: label.name,
+    labels: [label],
   });
   return json.data;
 }
@@ -67,7 +65,8 @@ async function update() {
       core.info(`Dependencies found: ${dependencies}`);
       for (let j = 0; j < dependencies.length; j++) {
         core.info(`Checking Status for #${dependencies[j]}`);
-        if (getIssue(dependencies[j]).data.state === "open") {
+        core.info(`Retriving issues ${getIssue(dependencies[j])}`);
+        if (getIssue(dependencies[j]).state === "open") {
           core.info(`Dependencies unresolved for #${onHoldIssues[i].number}`);
           return;
         }
