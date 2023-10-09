@@ -32634,6 +32634,8 @@ function findDependencies(body) {
 
 async function getIssuesWithLabel(label) {
   const json = await octokit.rest.issues.listForRepo({
+    owner: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.owner,
+    repo: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.repo.repo,
     state: "open",
     labels: [label],
   });

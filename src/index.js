@@ -19,6 +19,8 @@ function findDependencies(body) {
 
 async function getIssuesWithLabel(label) {
   const json = await octokit.rest.issues.listForRepo({
+    owner: github.context.repo.owner,
+    repo: github.context.repo.repo,
     state: "open",
     labels: [label],
   });
