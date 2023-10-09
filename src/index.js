@@ -2,6 +2,8 @@ import * as core from "@actions/core";
 import * as github from "@actions/github";
 
 const regex = /Dependent on:? ([#\d, ]+)/gi;
+const token = core.getInput("token");
+const octokit = github.getOctokit(token);
 
 function findDependencies(body) {
   const issues = [];
