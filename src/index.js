@@ -5,7 +5,7 @@ const regex = /Dependent on:? ([#\d, ]+)/gi;
 const token = core.getInput("token");
 const octokit = github.getOctokit(token);
 
-function findDependencies(body) {
+async function findDependencies(body) {
   const issues = [];
   if (body === null) return issues;
   for (const match of body.matchAll(regex)) {
@@ -36,7 +36,6 @@ async function getIssue(number) {
     });
     return json.data;
   } catch (error) {
-    // RequestError
     if (error.status === 404 || error.status === 410) {
       core.setFailed(`Issue not found: #${number}`);
       return null; // the invalid reference will be in the comment
@@ -62,13 +61,13 @@ async function update() {
   const onHoldIssues = await getIssuesWithLabel("on hold");
   for (let i = 0; i < onHoldIssues.length; i++) {
     core.info(`Retriving dependencies for #${onHoldIssues[i].number}`);
-    const dependencies = findDependencies(onHoldIssues[i].body);
+    const dependencies = await findDependencies(onHoldIssues[i].body);
     if (dependencies) {
       core.info(`Dependencies found: ${dependencies}`);
       for (let j = 0; j < dependencies.length; j++) {
         core.info(`Checking Status for #${dependencies[j]}`);
-        core.info(`Retriving issues ${getIssue(dependencies[j])}`);
-        if (getIssue(dependencies[j]).state === "open") {
+        const curIssue = await getIssue(dependencies[j]);
+        if (curIssue.state === "open") {
           core.info(`Dependencies unresolved for #${onHoldIssues[i].number}`);
           return;
         }

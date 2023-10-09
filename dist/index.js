@@ -32620,7 +32620,7 @@ const regex = /Dependent on:? ([#\d, ]+)/gi;
 const token = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("token");
 const octokit = _actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit(token);
 
-function findDependencies(body) {
+async function findDependencies(body) {
   const issues = [];
   if (body === null) return issues;
   for (const match of body.matchAll(regex)) {
@@ -32651,7 +32651,6 @@ async function getIssue(number) {
     });
     return json.data;
   } catch (error) {
-    // RequestError
     if (error.status === 404 || error.status === 410) {
       _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(`Issue not found: #${number}`);
       return null; // the invalid reference will be in the comment
@@ -32677,13 +32676,13 @@ async function update() {
   const onHoldIssues = await getIssuesWithLabel("on hold");
   for (let i = 0; i < onHoldIssues.length; i++) {
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Retriving dependencies for #${onHoldIssues[i].number}`);
-    const dependencies = findDependencies(onHoldIssues[i].body);
+    const dependencies = await findDependencies(onHoldIssues[i].body);
     if (dependencies) {
       _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Dependencies found: ${dependencies}`);
       for (let j = 0; j < dependencies.length; j++) {
         _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Checking Status for #${dependencies[j]}`);
-        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Retriving issues ${getIssue(dependencies[j])}`);
-        if (getIssue(dependencies[j]).state === "open") {
+        const curIssue = await getIssue(dependencies[j]);
+        if (curIssue.state === "open") {
           _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Dependencies unresolved for #${onHoldIssues[i].number}`);
           return;
         }
