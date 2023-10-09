@@ -3,7 +3,7 @@ import * as github from "@actions/github";
 
 const regex = /Dependent on:? ([#\d, ]+)/gi;
 const token = core.getInput("token");
-const octokit = github.getOctokit("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");
+const octokit = github.getOctokit(token);
 
 function findDependencies(body) {
   const issues = [];

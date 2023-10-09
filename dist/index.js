@@ -32618,7 +32618,7 @@ var __webpack_exports__ = {};
 
 const regex = /Dependent on:? ([#\d, ]+)/gi;
 const token = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput("token");
-const octokit = _actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit("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");
+const octokit = _actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit(token);
 
 function findDependencies(body) {
   const issues = [];
