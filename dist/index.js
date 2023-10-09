@@ -32680,7 +32680,7 @@ async function update() {
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Retriving dependencies for #${onHoldIssues[i].number}`);
     const dependencies = findDependencies(onHoldIssues[i].body);
 
-    for (let j = 0; j < len(dependencies); j++) {
+    for (let j = 0; j < dependencies.length; j++) {
       _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Checking Status for #${dependencies[j]}`);
       if (getIssue(dependencies[j]).status === "open") {
         return;

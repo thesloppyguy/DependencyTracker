@@ -65,7 +65,7 @@ async function update() {
     core.info(`Retriving dependencies for #${onHoldIssues[i].number}`);
     const dependencies = findDependencies(onHoldIssues[i].body);
 
-    for (let j = 0; j < len(dependencies); j++) {
+    for (let j = 0; j < dependencies.length; j++) {
       core.info(`Checking Status for #${dependencies[j]}`);
       if (getIssue(dependencies[j]).status === "open") {
         return;
