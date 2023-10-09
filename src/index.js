@@ -60,15 +60,17 @@ async function removeLabel(issueNumber, label) {
 async function update() {
   core.info(`Retriving issues on hold`);
   const onHoldIssues = await getIssuesWithLabel("on hold");
-
   for (let i = 0; i < onHoldIssues.length; i++) {
     core.info(`Retriving dependencies for #${onHoldIssues[i].number}`);
     const dependencies = findDependencies(onHoldIssues[i].body);
-
-    for (let j = 0; j < dependencies.length; j++) {
-      core.info(`Checking Status for #${dependencies[j]}`);
-      if (getIssue(dependencies[j]).status === "open") {
-        return;
+    if (dependencies) {
+      core.info(`Dependencies found: ${dependencies}`);
+      for (let j = 0; j < dependencies.length; j++) {
+        core.info(`Checking Status for #${dependencies[j]}`);
+        if (getIssue(dependencies[j]).data.state === "open") {
+          core.info(`Dependencies unresolved for #${onHoldIssues[i].number}`);
+          return;
+        }
       }
     }
     core.info(`Removing on hold for issue #${onHoldIssues[i].number}`);

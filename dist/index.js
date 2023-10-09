@@ -32675,15 +32675,17 @@ async function removeLabel(issueNumber, label) {
 async function update() {
   _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Retriving issues on hold`);
   const onHoldIssues = await getIssuesWithLabel("on hold");
-
   for (let i = 0; i < onHoldIssues.length; i++) {
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Retriving dependencies for #${onHoldIssues[i].number}`);
     const dependencies = findDependencies(onHoldIssues[i].body);
-
-    for (let j = 0; j < dependencies.length; j++) {
-      _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Checking Status for #${dependencies[j]}`);
-      if (getIssue(dependencies[j]).status === "open") {
-        return;
+    if (dependencies) {
+      _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Dependencies found: ${dependencies}`);
+      for (let j = 0; j < dependencies.length; j++) {
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Checking Status for #${dependencies[j]}`);
+        if (getIssue(dependencies[j]).data.state === "open") {
+          _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Dependencies unresolved for #${onHoldIssues[i].number}`);
+          return;
+        }
       }
     }
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Removing on hold for issue #${onHoldIssues[i].number}`);
